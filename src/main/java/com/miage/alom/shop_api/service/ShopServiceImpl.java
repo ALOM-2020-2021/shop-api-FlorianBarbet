@@ -23,9 +23,19 @@ public class ShopServiceImpl implements ShopService{
     }
 
     @Override
+    public Trainer saveTrainer(Trainer trainer){
+        return trainerShopRepository.save(trainer);
+    }
+
+    @Override
     public <E> void buyItem(Item<E> item,E target){
         item.load(target);
         item.applyEffect();
+    }
+
+    @Override
+    public Trainer getTrainerShop(String trainerName){
+        return trainerShopRepository.findById(trainerName).orElse(null);
     }
 
     @Autowired

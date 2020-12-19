@@ -5,6 +5,7 @@ public class ItemUI {
     String description;
     String image;
     int price;
+    boolean isPokemonConsommable;
 
     public String getName() {
         return name;
@@ -36,5 +37,13 @@ public class ItemUI {
 
     public void setImage(String image) {
         this.image = image;
+    }
+
+    public boolean isPokemonConsommable() {
+        return isPokemonConsommable;
+    }
+
+    public void setPokemonConsommable(boolean pokemonConsommable) {
+        isPokemonConsommable = pokemonConsommable;
     }
 }

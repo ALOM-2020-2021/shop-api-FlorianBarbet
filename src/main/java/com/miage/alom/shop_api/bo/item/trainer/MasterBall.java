@@ -27,7 +27,9 @@ public class MasterBall extends BallTrainerItem {
     public Trainer applyEffect() {
         if(trainer.getBuyedMasterBall())
             throw new MasterBallAlreadyBuyedException("Had already buy a masterball !");
-        return super.applyEffect();
+        var trainer = super.applyEffect();
+        trainer.setBuyedMasterBall(true);
+        return trainer;
     }
 
     @Autowired

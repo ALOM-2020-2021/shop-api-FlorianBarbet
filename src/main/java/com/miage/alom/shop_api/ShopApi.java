@@ -23,19 +23,16 @@ public class ShopApi {
     @Autowired
     public CommandLineRunner demo(TrainerShopRepository repository) {
         return (args) -> {
-            var ash = repository.findById("Ash").orElse(new Trainer("Ash"));
-            var ash_portefeuille = new Portefeuille();
-            ash.setPortefeuille(ash_portefeuille);
-            ash_portefeuille.approvisionnement(20_000);
-
-            var misty = repository.findById("Misty").orElse(new Trainer("Misty"));
-            var misty_portefeuille = new Portefeuille();
-            misty.setPortefeuille(misty_portefeuille);
-            misty_portefeuille.approvisionnement(20_000);
-
-            // save a couple of trainers
-            repository.save(ash);
-            repository.save(misty);
+            /*on met à jour le portefeuille de tous nos trainer deja presents*/
+            var trainers = repository.findAll();
+            trainers.forEach(trainer -> {
+                if(trainer.getPortefeuille() == null) {
+                    var portefeuille = new Portefeuille();
+                    trainer.setPortefeuille(portefeuille);
+                    portefeuille.approvisionnement(20_000);
+                }
+            });
+            repository.saveAll(trainers);
         };
     }
 }

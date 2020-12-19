@@ -1,6 +1,7 @@
 package com.miage.alom.shop_api.controller;
 
 import com.miage.alom.shop_api.bo.ItemUI;
+import com.miage.alom.shop_api.bo.Portefeuille;
 import com.miage.alom.shop_api.bo.item.Item;
 import com.miage.alom.shop_api.bo.item.ReferentielEnum;
 import com.miage.alom.shop_api.bo.item.pokemon.ConsommablePokemonItem;
@@ -26,21 +27,29 @@ public class ShopController {
     ShopService shopService;
     TrainerService trainerService;
     List<Pokemon> starter;
-
-    @PutMapping({"/{name}/","/{name}"})
-    public Boolean approvisionner(
-            @PathVariable("name") String name,
-            @RequestBody Integer addingAmount
+    /*Je vais me servir de cette methode pour recuperer le portefeuille de mes utilisateurs*/
+    @PutMapping({"/solde","/solde/"})
+    public Integer approvisionner(
+            @RequestParam("name") String name,
+            @RequestParam(value = "amount",required = false) Integer addingAmount
     ){
-        var trainer = trainerService.getTrainer(name);
 
-        return shopService.approvisionner(trainer,addingAmount);
+        var trainer = shopService.getTrainerShop(name);
+        if(trainer == null) return 0;
+
+        var portefeuille = trainer.getPortefeuille();
+        if(addingAmount != null && addingAmount > 0) /*si on traite ici ça evite quelques traitements*/
+            shopService.approvisionner(trainer,addingAmount);
+
+        return portefeuille.getSolde();
     }
 
-
     @GetMapping({"","/"})
-    public List<ItemUI> listProducts(){
-        return ReferentielEnum.getReferentiel();
+    public List<ItemUI> listProducts(
+            @RequestParam("name") String name
+    ){
+        var trainer = shopService.getTrainerShop(name);
+        return ReferentielEnum.getReferentiel(trainer);
     }
 
     @GetMapping("/starter")
@@ -48,25 +57,35 @@ public class ShopController {
         return starter;
     }
 
-    @PutMapping({"/{item}","/{item}/"})
+    @PutMapping({"/buy/{item}","/buy/{item}/"})
     public Boolean buyItem(
             @PathVariable("item") String item,
-            @RequestBody Trainer trainer,
+            @RequestParam(value = "trainer") String trainerBase,
+            /*
+            Je suis pas sur niveau secu si c'est ok comme ca..
+            Je sais que c'est pas un cours de secu mais je me dis que peut etre un token à la place du nom ça aiderai,
+            Si jamais j'aimerai bien un feedback ça m'interesse :)
+            */
             @RequestParam(value = "pokemon_id",required = false)
                 String pokemonId
     ){
+        var trainer = shopService.getTrainerShop(trainerBase);/*On veut recuperer nos donnees de trainer*/
         if(trainer != null && trainer.getTeam() != null ) {
             var itemRef = ReferentielEnum.fromName(item);
-            var itemBean = applicationContext.getBean(item,itemRef.getType());
+            var itemBean = applicationContext.getBean(itemRef.getType());
 
             if (pokemonId != null) {
                 var parsedPokemonId = Integer.parseInt(pokemonId);
                 var team = trainer.getTeam();
                 var pokemon = team.stream().filter(pk -> parsedPokemonId == pk.getPokemonTypeId()).findFirst();
-                pokemon.ifPresent(value -> shopService.buyItem((ConsommablePokemonItem)itemBean, Pair.of(trainer, value)));
-                return true;
+                pokemon.ifPresent(value -> {
+                    shopService.buyItem((ConsommablePokemonItem)itemBean, Pair.of(trainer, value));
+                    shopService.saveTrainer(trainer);
+                });
+                return pokemon.isPresent();
             }
             shopService.buyItem((BallTrainerItem) itemBean,trainer);
+            shopService.saveTrainer(trainer);
             return true;
         }
         return false;

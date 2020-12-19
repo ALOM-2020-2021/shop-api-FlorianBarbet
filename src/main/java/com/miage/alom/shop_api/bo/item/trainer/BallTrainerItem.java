@@ -37,9 +37,19 @@ public abstract class BallTrainerItem implements TrainerItem {
             throw new NotEnoughtFundException("Your sold can't handle the price of this article");
 
         var team = trainer.getTeam();
-
         portefeuille.achat(prix);
-        team.add(randomize());
+        var earned = randomize();
+
+        if(!team.contains(earned)) {
+            /*Si on fait evoluer le systeme on pourrai mettre en place un systeme on pourrai mettre un systeme de fragment*/
+            /*En attendant ca permet de ne pas ennuyer l'utilisateur*/
+            team.add(earned);
+        }else {
+            var indexOfExistant = team.indexOf(earned);
+            var pokemon = team.get(indexOfExistant);
+            var currentExp = pokemon.getExperience();
+            pokemon.setExperience((int)Math.pow(Math.cbrt(currentExp)+1,3));
+        }
 
         return trainer;
     }

@@ -1,11 +1,13 @@
 package com.miage.alom.shop_api.bo.item;
 
 import com.miage.alom.shop_api.bo.ItemUI;
+import com.miage.alom.shop_api.bo.item.pokemon.ConsommablePokemonItem;
 import com.miage.alom.shop_api.bo.item.pokemon.SuperBonbon;
 import com.miage.alom.shop_api.bo.item.trainer.HyperBall;
 import com.miage.alom.shop_api.bo.item.trainer.MasterBall;
 import com.miage.alom.shop_api.bo.item.trainer.PokeBall;
 import com.miage.alom.shop_api.bo.item.trainer.SuperBall;
+import com.miage.alom.shop_api.trainer.bo.Trainer;
 import org.springframework.data.util.Pair;
 
 import java.util.Arrays;
@@ -19,7 +21,7 @@ Mais vue le nombre de données je ne penses pas que cela aurait été très opti
 * */
 public enum ReferentielEnum {
 
-    SUPERBONBON(SuperBonbon.class,"Augmente un niveau d'un pokemon au choix !"),
+    SUPERBONBON(SuperBonbon.class,"Le pokemon choisi se voit obtenir un niveau !"),
     POKEBALL(PokeBall.class,
             "Deviens le meilleur dresseur et obtiens un pokemon commun de niveau 5 au hasard !",
             "https://www.flaticon.com/svg/static/icons/svg/188/188918.svg"),
@@ -57,9 +59,12 @@ public enum ReferentielEnum {
                 .orElseThrow(IllegalArgumentException::new);
     }
 
-    public static List<ItemUI> getReferentiel() {
+    public static List<ItemUI> getReferentiel(Trainer trainer) {
         return Arrays.stream(values())
                 .map(refE -> {
+                    if(MasterBall.class.equals(refE.type) && trainer.getBuyedMasterBall()){
+                        return null;
+                    }
                     try {
                         var typeE = refE.type;
                         var item = typeE.getDeclaredConstructor().newInstance();
@@ -68,6 +73,7 @@ public enum ReferentielEnum {
                         itemToSend.setName(typeE.getSimpleName());
                         itemToSend.setPrice(item.price());
                         itemToSend.setImage(refE.image);
+                        itemToSend.setPokemonConsommable(item instanceof ConsommablePokemonItem);
                         return itemToSend;
                     } catch (ReflectiveOperationException ignored) {
                         return null;

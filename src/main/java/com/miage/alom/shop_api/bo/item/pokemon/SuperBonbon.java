@@ -4,7 +4,9 @@ import com.miage.alom.shop_api.bo.item.Item;
 import com.miage.alom.shop_api.trainer.bo.Pokemon;
 import com.miage.alom.shop_api.trainer.bo.Trainer;
 import org.springframework.data.util.Pair;
+import org.springframework.stereotype.Component;
 
+@Component
 public class SuperBonbon extends ConsommablePokemonItem {
 
     @Override

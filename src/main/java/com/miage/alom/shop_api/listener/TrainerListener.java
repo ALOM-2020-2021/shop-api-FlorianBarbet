@@ -29,7 +29,7 @@ public class TrainerListener {
             tr.setPortefeuille(portefeuille);
             trainerShopRepository.save(tr);
         });
-        /*TODO websocket to offer one of theses 3 pokemons : 1/4/7 */
+
     }
 
     @Autowired
