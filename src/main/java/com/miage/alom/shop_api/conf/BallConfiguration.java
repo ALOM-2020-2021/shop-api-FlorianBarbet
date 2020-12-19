@@ -1,9 +1,9 @@
 package com.miage.alom.shop_api.conf;
 
 import com.miage.alom.shop_api.trainer.bo.Pokemon;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -11,10 +11,16 @@ import java.util.stream.Collectors;
 @Configuration
 public class BallConfiguration {
 
+    List<Integer> masterballs;
+    List<Integer> hyperballs;
+    List<Integer> superballs;
+    List<Integer> pokeballs;
+    List<Integer> starters;
+
     @Bean
     List<Pokemon> masterballs(){
         return converter(
-                List.of(144,145,146,150,151),
+                this.masterballs,
                 experience(40)
         );
     }
@@ -22,7 +28,7 @@ public class BallConfiguration {
     @Bean
     List<Pokemon> hyperballs(){
         return converter(
-                List.of(147,58,74,95,77,37,109,27,126,63,25,125,66,88,111,100,108,123,127,114,138,140),
+                this.hyperballs,
                 experience(20)
         );
     }
@@ -30,7 +36,7 @@ public class BallConfiguration {
     @Bean
     List<Pokemon> superballs(){
         return converter(
-                List.of(35,32,29,23,104,118,60,90,39,81,92,102,79,54,124,120,72,132),
+                this.superballs,
                 experience(10)
         );
     }
@@ -38,8 +44,16 @@ public class BallConfiguration {
     @Bean
     List<Pokemon> pokeballs(){
         return converter(
-                List.of(10,13,16,19,41,133,48,43,129,96,52,21,69,46,98,116),
+                this.pokeballs,
                 experience(5)
+        );
+    }
+
+    @Bean
+    List<Pokemon> starter(){
+        return converter(
+                this.starters,
+                experience(1)
         );
     }
 
@@ -57,5 +71,28 @@ public class BallConfiguration {
 
     int experience(int level){
         return (int)Math.pow(level,3);
+    }
+
+    @Value("${pokemon.masterballs.id}")
+    public void setMasterballs(List<Integer> masterballs) {
+        this.masterballs = masterballs;
+    }
+
+    @Value("${pokemon.hyperballs.id}")
+    public void setHyperballs(List<Integer> hyperballs) {
+        this.hyperballs = hyperballs;
+    }
+
+    @Value("${pokemon.superballs.id}")
+    public void setSuperballs(List<Integer> superballs) {
+        this.superballs = superballs;
+    }
+    @Value("${pokemon.pokeballs.id}")
+    public void setPokeballs(List<Integer> pokeballs) {
+        this.pokeballs = pokeballs;
+    }
+    @Value("${pokemon.starters.id}")
+    public void setStarters(List<Integer> starters) {
+        this.starters = starters;
     }
 }

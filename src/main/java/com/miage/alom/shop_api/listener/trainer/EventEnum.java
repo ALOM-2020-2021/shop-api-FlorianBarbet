@@ -3,7 +3,7 @@ package com.miage.alom.shop_api.listener.trainer;
 import java.util.Arrays;
 
 public enum EventEnum {
-    CREATED(TrainerCreatedEvent.class,"trainer.event.created"),
+    CREATED_SHOP(TrainerCreatedEvent.class,"trainer.event.created.shop"),
     ;
 
     Class<?> eventClass;

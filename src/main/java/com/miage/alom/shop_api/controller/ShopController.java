@@ -1,25 +1,30 @@
 package com.miage.alom.shop_api.controller;
 
+import com.miage.alom.shop_api.bo.ItemUI;
 import com.miage.alom.shop_api.bo.item.Item;
 import com.miage.alom.shop_api.bo.item.ReferentielEnum;
+import com.miage.alom.shop_api.bo.item.trainer.BallTrainerItem;
 import com.miage.alom.shop_api.service.ShopService;
+import com.miage.alom.shop_api.trainer.bo.Pokemon;
 import com.miage.alom.shop_api.trainer.bo.Trainer;
 import com.miage.alom.shop_api.trainer.service.TrainerService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.data.util.Pair;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Controller("/shop")
+@RestController
+@RequestMapping("/shop")
 public class ShopController {
+
+    ApplicationContext applicationContext;
 
     ShopService shopService;
     TrainerService trainerService;
+    List<Pokemon> starter;
 
     @PutMapping({"/{name}/","/{name}"})
     public Boolean approvisionner(
@@ -31,9 +36,44 @@ public class ShopController {
         return shopService.approvisionner(trainer,addingAmount);
     }
 
+
     @GetMapping({"","/"})
-    public List<Pair<String, Pair<String,Integer>>> listProducts(){
+    public List<ItemUI> listProducts(){
         return ReferentielEnum.getReferentiel();
+    }
+
+    @GetMapping("/starter")
+    public List<Pokemon> getStarters(){
+        return starter;
+    }
+
+    @PutMapping({"/{item}","/{item}/"})
+    public Boolean buyItem(
+            @PathVariable("item") String item,
+            @RequestBody Trainer trainer,
+            @RequestParam(value = "pokemon_id",required = false)
+                String pokemonId
+    ){
+        if(trainer != null && trainer.getTeam() != null ) {
+            var itemRef = ReferentielEnum.fromName(item);
+            var itemBean = applicationContext.getBean(item,itemRef.getType());
+
+            if (pokemonId != null) {
+                var parsedPokemonId = Integer.parseInt(pokemonId);
+                var team = trainer.getTeam();
+                var pokemon = team.stream().filter(pk -> parsedPokemonId == pk.getPokemonTypeId()).findFirst();
+                pokemon.ifPresent(value -> shopService.buyItem(itemBean, Pair.of(trainer, value)));
+                return true;
+            }
+            shopService.buyItem((BallTrainerItem) itemBean,trainer);
+            return true;
+        }
+        return false;
+    }
+
+    @Autowired
+    public void setStarter(List<Pokemon> starter) {
+        this.starter = starter;
     }
 
     @Autowired
@@ -44,5 +84,10 @@ public class ShopController {
     @Autowired
     public void setTrainerService(TrainerService trainerService) {
         this.trainerService = trainerService;
+    }
+
+    @Autowired
+    public void setApplicationContext(ApplicationContext applicationContext) {
+        this.applicationContext = applicationContext;
     }
 }

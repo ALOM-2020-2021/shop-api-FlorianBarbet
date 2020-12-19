@@ -16,12 +16,12 @@ public class TrainerListener {
 
     TrainerShopRepository trainerShopRepository;
 
-    @RabbitListener(queues = "trainer-created")
+    @RabbitListener(queues = "trainer-created-shop")
     void welcomeNewTrainer(TrainerCreatedEvent trainerCreatedEvent){
 
         var trainer = trainerCreatedEvent.getTrainer();
 
-        log.info("Welcome to {} your sold up to 10K !",trainer);
+        log.info("Welcome to {} sold up to 10K !",trainer.getName());
 
         trainerShopRepository.findById(trainer.getName()).ifPresent(tr ->{
             var portefeuille = new Portefeuille();
@@ -36,4 +36,5 @@ public class TrainerListener {
     public void setTrainerShopRepository(TrainerShopRepository trainerShopRepository) {
         this.trainerShopRepository = trainerShopRepository;
     }
+
 }
