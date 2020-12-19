@@ -3,6 +3,7 @@ package com.miage.alom.shop_api.controller;
 import com.miage.alom.shop_api.bo.ItemUI;
 import com.miage.alom.shop_api.bo.item.Item;
 import com.miage.alom.shop_api.bo.item.ReferentielEnum;
+import com.miage.alom.shop_api.bo.item.pokemon.ConsommablePokemonItem;
 import com.miage.alom.shop_api.bo.item.trainer.BallTrainerItem;
 import com.miage.alom.shop_api.service.ShopService;
 import com.miage.alom.shop_api.trainer.bo.Pokemon;
@@ -62,7 +63,7 @@ public class ShopController {
                 var parsedPokemonId = Integer.parseInt(pokemonId);
                 var team = trainer.getTeam();
                 var pokemon = team.stream().filter(pk -> parsedPokemonId == pk.getPokemonTypeId()).findFirst();
-                pokemon.ifPresent(value -> shopService.buyItem(itemBean, Pair.of(trainer, value)));
+                pokemon.ifPresent(value -> shopService.buyItem((ConsommablePokemonItem)itemBean, Pair.of(trainer, value)));
                 return true;
             }
             shopService.buyItem((BallTrainerItem) itemBean,trainer);
