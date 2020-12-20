@@ -1,7 +1,9 @@
 package com.miage.alom.shop_api.bo.item.pokemon.stone;
 
 import com.miage.alom.shop_api.bo.item.pokemon.ElementStone;
+import org.springframework.stereotype.Component;
 
+@Component
 public class FireStone extends ElementStone {
     @Override
     public int price() {
