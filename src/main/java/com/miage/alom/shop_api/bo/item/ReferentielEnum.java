@@ -104,17 +104,17 @@ public enum ReferentielEnum {
             return trainer.getBuyedMasterBall();
 
         if(ElectricStone.class.equals(refE.type)) {
-            var hasVoltali = trainer.getTeam().stream().noneMatch(pokemon -> 135 == pokemon.getPokemonTypeId());
+            var hasVoltali = trainer.getTeam().stream().anyMatch(pokemon -> 135 == pokemon.getPokemonTypeId());
             return hasVoltali || notEarnedEvoli;
         }
 
         if(FireStone.class.equals(refE.type)) {
-            var hasPyroli = trainer.getTeam().stream().noneMatch(pokemon -> 136 == pokemon.getPokemonTypeId());
+            var hasPyroli = trainer.getTeam().stream().anyMatch(pokemon -> 136 == pokemon.getPokemonTypeId());
             return hasPyroli || notEarnedEvoli;
         }
 
         if( WaterStone.class.equals(refE.type)) {
-            var hasAquali = trainer.getTeam().stream().noneMatch(pokemon -> 134 == pokemon.getPokemonTypeId());
+            var hasAquali = trainer.getTeam().stream().anyMatch(pokemon -> 134 == pokemon.getPokemonTypeId());
             return hasAquali || notEarnedEvoli;
         }
 
