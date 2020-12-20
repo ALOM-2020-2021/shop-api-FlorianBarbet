@@ -77,11 +77,19 @@ public enum ReferentielEnum {
     }
 
     public static List<ItemUI> getReferentiel(Trainer trainer) {
+        var notEarnedEvoli = trainer.getTeam().stream().noneMatch(pokemon -> 133 == pokemon.getPokemonTypeId());
         return Arrays.stream(values())
                 .map(refE -> {
                     if(MasterBall.class.equals(refE.type) && trainer.getBuyedMasterBall()){
                         return null;
                     }
+                    if(ElectricStone.class.equals(refE.type)
+                        || FireStone.class.equals(refE.type)
+                        || WaterStone.class.equals(refE.type)){
+                        if(notEarnedEvoli)
+                            return null;
+                    }
+
                     try {
                         var typeE = refE.type;
                         var item = typeE.getDeclaredConstructor().newInstance();
