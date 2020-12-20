@@ -12,6 +12,11 @@ public abstract class ConsommablePokemonItem implements PokemonItem {
 
     @Override
     public Pair<Trainer,Pokemon> applyEffect() {
+        required();
+        return describeEffect();
+    }
+
+    protected void required(){
         if(pokemon == null || trainer == null )
             throw new TypeNeverLoadException("Pokemon or/and Trainer never set to apply this effect");
 
@@ -25,9 +30,13 @@ public abstract class ConsommablePokemonItem implements PokemonItem {
         if(portefeuille.getSolde() < prix)
             throw new NotEnoughtFundException("Your sold can't handle the price of this article");
 
-        portefeuille.achat(prix);
+        specificRequirement();
 
-        return describeEffect();
+        portefeuille.achat(prix);
+    }
+
+    void specificRequirement(){
+        /*Here to be overwritten*/
     }
 
     @Override

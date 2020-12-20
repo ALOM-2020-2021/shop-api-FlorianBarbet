@@ -4,6 +4,9 @@ import com.miage.alom.shop_api.bo.ItemUI;
 import com.miage.alom.shop_api.bo.item.pokemon.ConsommablePokemonItem;
 import com.miage.alom.shop_api.bo.item.pokemon.Evolution;
 import com.miage.alom.shop_api.bo.item.pokemon.SuperBonbon;
+import com.miage.alom.shop_api.bo.item.pokemon.stone.ElectricStone;
+import com.miage.alom.shop_api.bo.item.pokemon.stone.FireStone;
+import com.miage.alom.shop_api.bo.item.pokemon.stone.WaterStone;
 import com.miage.alom.shop_api.bo.item.trainer.HyperBall;
 import com.miage.alom.shop_api.bo.item.trainer.MasterBall;
 import com.miage.alom.shop_api.bo.item.trainer.PokeBall;
@@ -36,6 +39,18 @@ public enum ReferentielEnum {
     MASTERBALL(MasterBall.class,
             "Usage unique, deviens une legende en obtenant l'un des pokemons legendaire de ta generation.. En plus il est niveau 40",
             "https://www.flaticon.com/svg/static/icons/svg/188/188955.svg"),
+    FIRESTONE(FireStone.class,
+            "Vous avez un Evoli, pourquoi ne pas y mettre le feu ?",
+            "https://www.flaticon.com/svg/static/icons/svg/1717/1717713.svg"/*Je n'ai pas trouvé d'image plus en rapport avec Pyroli*/
+    ),
+    WATERSTONE(WaterStone.class,
+            "Cette pierre pourra apprendre à Evoli comment Nager !",
+            "https://www.flaticon.com/svg/static/icons/svg/809/809120.svg"
+    ),
+    ELECTRICSTONE(ElectricStone.class,
+            "C'est moi où cet Evoli donne à l'air très tendu comme sous Pression, il ne manquerai plus qu'un coup de Tonerre !",
+            "https://www.flaticon.com/svg/static/icons/svg/2204/2204341.svg"
+    ),
     ;
 
     Class<? extends Item<?>> type;
