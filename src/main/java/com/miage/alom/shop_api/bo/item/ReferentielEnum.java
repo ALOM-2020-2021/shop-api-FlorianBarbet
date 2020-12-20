@@ -2,6 +2,7 @@ package com.miage.alom.shop_api.bo.item;
 
 import com.miage.alom.shop_api.bo.ItemUI;
 import com.miage.alom.shop_api.bo.item.pokemon.ConsommablePokemonItem;
+import com.miage.alom.shop_api.bo.item.pokemon.Evolution;
 import com.miage.alom.shop_api.bo.item.pokemon.SuperBonbon;
 import com.miage.alom.shop_api.bo.item.trainer.HyperBall;
 import com.miage.alom.shop_api.bo.item.trainer.MasterBall;
@@ -22,6 +23,7 @@ Mais vue le nombre de données je ne penses pas que cela aurait été très opti
 public enum ReferentielEnum {
 
     SUPERBONBON(SuperBonbon.class,"Le pokemon choisi se voit obtenir un niveau !"),
+    EVOLUTION(Evolution.class,"Fais evoluer tes pokemons préférés, ils te remerciront"),
     POKEBALL(PokeBall.class,
             "Deviens le meilleur dresseur et obtiens un pokemon commun de niveau 5 au hasard !",
             "https://www.flaticon.com/svg/static/icons/svg/188/188918.svg"),
