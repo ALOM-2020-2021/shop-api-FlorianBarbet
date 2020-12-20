@@ -48,7 +48,11 @@ public class Evolution extends ConsommablePokemonItem {
             return Arrays.stream(values())
                     .filter(evolutionEnum -> evolutionEnum.pokemonId != null
                             && evolutionEnum.pokemonId.stream().anyMatch(pkId -> id == pkId || (id > pkId && id < (pkId + evolutionEnum.nbUp))))
-                    .map(evolutionEnum -> id+evolutionEnum.nbUp)
+                    .map(evolutionEnum -> {
+                        var baseId = evolutionEnum.pokemonId.stream().filter(pkId -> id == pkId || (id > pkId && id < (pkId + evolutionEnum.nbUp))).findFirst().orElse(0);
+
+                        return baseId==0?0:baseId+evolutionEnum.nbUp;
+                    })
                     .findFirst()
                     .orElse(0);
         }
