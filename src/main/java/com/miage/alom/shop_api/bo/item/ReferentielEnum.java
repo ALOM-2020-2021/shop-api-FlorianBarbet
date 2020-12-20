@@ -12,7 +12,6 @@ import com.miage.alom.shop_api.bo.item.trainer.MasterBall;
 import com.miage.alom.shop_api.bo.item.trainer.PokeBall;
 import com.miage.alom.shop_api.bo.item.trainer.SuperBall;
 import com.miage.alom.shop_api.trainer.bo.Trainer;
-import org.springframework.data.util.Pair;
 
 import java.util.Arrays;
 import java.util.List;
@@ -80,15 +79,8 @@ public enum ReferentielEnum {
         var notEarnedEvoli = trainer.getTeam().stream().noneMatch(pokemon -> 133 == pokemon.getPokemonTypeId());
         return Arrays.stream(values())
                 .map(refE -> {
-                    if(MasterBall.class.equals(refE.type) && trainer.getBuyedMasterBall()){
+                    if(notToPrint(refE,trainer,notEarnedEvoli))
                         return null;
-                    }
-                    if(ElectricStone.class.equals(refE.type)
-                        || FireStone.class.equals(refE.type)
-                        || WaterStone.class.equals(refE.type)){
-                        if(notEarnedEvoli)
-                            return null;
-                    }
 
                     try {
                         var typeE = refE.type;
@@ -105,6 +97,28 @@ public enum ReferentielEnum {
                     }
                 }).filter(Objects::nonNull)
                 .collect(Collectors.toList());
+    }
+
+    static boolean notToPrint(ReferentielEnum refE, Trainer trainer, boolean notEarnedEvoli){
+        if(MasterBall.class.equals(refE.type))
+            return trainer.getBuyedMasterBall();
+
+        if(ElectricStone.class.equals(refE.type)) {
+            var hasVoltali = trainer.getTeam().stream().noneMatch(pokemon -> 135 == pokemon.getPokemonTypeId());
+            return hasVoltali || notEarnedEvoli;
+        }
+
+        if(FireStone.class.equals(refE.type)) {
+            var hasPyroli = trainer.getTeam().stream().noneMatch(pokemon -> 136 == pokemon.getPokemonTypeId());
+            return hasPyroli || notEarnedEvoli;
+        }
+
+        if( WaterStone.class.equals(refE.type)) {
+            var hasAquali = trainer.getTeam().stream().noneMatch(pokemon -> 134 == pokemon.getPokemonTypeId());
+            return hasAquali || notEarnedEvoli;
+        }
+
+        return false;
     }
 
     public Class<? extends Item<?>> getType() {
