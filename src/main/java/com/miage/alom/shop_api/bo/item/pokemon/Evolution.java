@@ -18,13 +18,14 @@ public class Evolution extends ConsommablePokemonItem {
 
     @Override
     Pair<Trainer, Pokemon> describeEffect() {
-        var exp = pokemon.getExperience();
-        var currentLevel = (int)Math.cbrt(exp);
         var maxEvolution = EvolutionEnum.findPalier(pokemon.getPokemonTypeId());
         if(pokemon.getPokemonTypeId() < maxEvolution){
             pokemon.setPokemonTypeId(pokemon.getPokemonTypeId()+1);
+        }else {
+            var exp = pokemon.getExperience();
+            var currentLevel = (int)Math.cbrt(exp);
+            pokemon.setExperience((int) Math.pow(currentLevel + 3, 3));
         }
-        pokemon.setExperience((int)Math.pow(currentLevel+1,3));
         return Pair.of(trainer,pokemon);
     }
 
