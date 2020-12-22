@@ -82,10 +82,6 @@ to plug your own database ( it should be the same as trainer-api )
 * spring.rabbitmq / your RabbitMQ information, 
 this project use some messaging queues, it should be the same for every API plug into shop-api
 
-* pokemon.XXX.id / if you wish you could change the list of pokemon id 
-you could obtain in XXX ( XXX could be masterballs, superballs, hyperballs, pokeballs or starter )
-these properties are important to run this API ( Don't touch if you don't know you it does ) !
-
 You've seen some props are like : ${SOMETHING:...} it stands for there is an Environment variable 
 named as SOMETHING ( in this case ) if you can't find it will use : "..."
 
@@ -110,3 +106,17 @@ Fill in your virtual-host ( it's a facultative property but if you are
 in vhost context you should read this : https://www.rabbitmq.com/vhosts.html )
 
 At the end, fill in your RabbitMQ username and password.
+
+### Pokeball configuration
+```` 
+pokemon.masterballs.id = 144,145,146,150,151
+pokemon.hyperballs.id = 147,58,74,95,77,37,109,27,126,63,25,125,66,88,111,100,108,123,127,114,138,140
+pokemon.superballs.id = 35,32,29,23,104,118,60,90,39,81,92,102,79,54,124,120,72,132
+pokemon.pokeballs.id = 10,13,16,19,41,133,48,43,129,96,52,21,69,46,98,116
+pokemon.starters.id = 1,4,7 
+````
+pokemon.XXX.id : if you wish you could change the list of pokemon id 
+you could obtain in XXX ( XXX could be masterballs, superballs, hyperballs, pokeballs or starter )
+these properties are important to run this API you have to get them all ! It will be used 
+to instance a singleton factory which will produce a List of PokemonId that are required to randomize 
+a selection of pokemon ! ( Don't touch if you don't know what it does ) !
