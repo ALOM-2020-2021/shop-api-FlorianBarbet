@@ -1,0 +1,157 @@
+{
+	"info": {
+		"_postman_id": "4c81467d-4939-44f8-bd87-bff3442bfc54",
+		"name": "shop-api",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "https://shop-api-florian-barbet.cleverapps.io/shop/starter",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"all starters\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.length).to.eq(3);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"id 1\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData[0].pokemonTypeId).to.eq(1);\r",
+							"    pm.expect(jsonData[0].experience).to.eq(1);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"id 4\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData[1].pokemonTypeId).to.eq(4);\r",
+							"    pm.expect(jsonData[1].experience).to.eq(1);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"id 7\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData[2].pokemonTypeId).to.eq(7);\r",
+							"    pm.expect(jsonData[2].experience).to.eq(1);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "9240c8ae-5f2a-4d0f-b2b6-75299ae6b760",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "user",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://shop-api-florian-barbet.cleverapps.io/shop/starter",
+					"protocol": "https",
+					"host": [
+						"shop-api-florian-barbet",
+						"cleverapps",
+						"io"
+					],
+					"path": [
+						"shop",
+						"starter"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "https://shop-api-florian-barbet.cleverapps.io/shop?name=Ash",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"all articles\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.length).to.eq(5);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Superbonbon\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData[0].name).to.eq(\"SuperBonbon\");\r",
+							"});\r",
+							"pm.test(\"Evolution\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData[1].name).to.eq(\"Evolution\");\r",
+							"});\r",
+							"pm.test(\"PokeBall\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData[2].name).to.eq(\"PokeBall\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"SuperBall\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData[3].name).to.eq(\"SuperBall\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"HyperBall\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData[4].name).to.eq(\"HyperBall\");\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "9240c8ae-5f2a-4d0f-b2b6-75299ae6b760",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "user",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://shop-api-florian-barbet.cleverapps.io/shop?name=Ash",
+					"protocol": "https",
+					"host": [
+						"shop-api-florian-barbet",
+						"cleverapps",
+						"io"
+					],
+					"path": [
+						"shop"
+					],
+					"query": [
+						{
+							"key": "name",
+							"value": "Ash"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
