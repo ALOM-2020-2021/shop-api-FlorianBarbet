@@ -24,7 +24,7 @@ This project run with spring cloud configurator.
 It will use a remote API to take his configuration.
 
 ## Change remote configuration server
-Actually you could find project configuration on https://configuration-api-florian-barbet.cleverapps.io/shop-api/application.properties
+Actually you could find project configuration on https://configuration-api-florian-barbet.cleverapps.io/shop-api/
 
 You can setup your own remote configuration with a `bootstrap.properties` in `src/main/resources` there you'll can change properties as you wish, e.g :
 * spring.cloud.config.uri=https://configuration-api-florian-barbet.cleverapps.io/
