@@ -74,18 +74,18 @@ it could break all your MS Architecture : `trainer.api.exchange.name=trainer-api
 For security reasons I've delete some properties on this base file, first step is to
  change it with your own configuration.
 
-Don't panic I help you, begin with ... / stand for ... : 
+Don't panic I help you, start with ... / stand for ... : 
 * trainer.service / security authentication on trainer-api 
 which implements Spring Security Configuration !
 * spring.datasource / your database information 
 to plug your own database ( it should be the same as trainer-api )
 * spring.rabbitmq / your RabbitMQ information, 
-this project use some messaging queues, it should be the same for every API plug into shop-api
+this project use some messaging queues, it should be the same for each API plug into shop-api
 
 You've seen some props are like : ${SOMETHING:...} it stands for there is an Environment variable 
 named as SOMETHING ( in this case ) if you can't find it will use : "..."
 
-Environment variable are : 
+Environments variables are : 
 * SERVER_PORT_SHOP it's the server port to run shop.
 * TRAINER_API_URL it's the URL of your trainer-api.
 * DDL_AUTO it could be fill in as "none","update","create-drop" ; 
@@ -116,7 +116,7 @@ pokemon.pokeballs.id = 10,13,16,19,41,133,48,43,129,96,52,21,69,46,98,116
 pokemon.starters.id = 1,4,7 
 ````
 pokemon.XXX.id : if you wish you could change the list of pokemon id 
-you could obtain in XXX ( XXX could be masterballs, superballs, hyperballs, pokeballs or starter )
-these properties are important to run this API you have to get them all ! It will be used 
-to instance a singleton factory which will produce a List of PokemonId that are required to randomize 
-a selection of pokemon ! ( Don't touch if you don't know what it does ) !
+you could obtain into a XXX ( XXX could be masterballs, superballs, hyperballs, pokeballs or starter )
+these properties are important to run this API you have to put them all ! they will be use to instance a singleton 
+factory which will produce a List of PokemonId that are required to randomize a selection of pokemon ! 
+( Don't touch if you don't know what it does ) !
